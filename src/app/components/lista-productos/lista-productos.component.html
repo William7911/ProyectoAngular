@@ -1,0 +1,25 @@
+<div class="contenedor-tienda">
+  <h2>Inventario de la Tienda</h2>
+  
+  <div class="productos-grid">
+    <!-- FOR: Recorre el arreglo de productos -->
+    @for (producto of productos; track producto.id) {
+      <div class="tarjeta-producto">
+        
+        <!-- INTERPOLATION: Muestra los datos usando llaves dobles -->
+        <h3>{{ producto.nombre }}</h3>
+        <p class="precio">Precio: Q{{ producto.precio }}</p>
+        
+        <!-- IF: Evalúa si el producto está disponible o no -->
+        @if (producto.disponible) {
+          <span class="badge disponible">Disponible</span>
+          <button class="btn-agregar">Agregar a la venta</button>
+        } @else {
+          <span class="badge agotado">Agotado</span>
+          <button class="btn-agregar" disabled>Sin existencias</button>
+        }
+
+      </div>
+    }
+  </div>
+</div>
