@@ -53,3 +53,9 @@ node_modules/
 API/**/.vs/
 API/**/bin/
 API/**/obj/
+
+Dockerfile
+docker-compose.yml
+nginx.conf
+AGENTS.MD
+.dockerignore

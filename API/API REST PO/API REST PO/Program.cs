@@ -1,15 +1,26 @@
+using Microsoft.EntityFrameworkCore;
+using API_REST_PO.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexionSQL")));
+
+// Configurar CORS
 builder.Services.AddCors(options => {
   options.AddPolicy("PermitirAngular", policy => {
-    policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+    policy.WithOrigins("http://localhost:4200")
+          .AllowAnyHeader()
+          .AllowAnyMethod();
   });
 });
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,9 +31,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// ¡CORS DEBE IR AQUÍ! (Antes de la autorización)
+app.UseCors("PermitirAngular");
+
 app.UseAuthorization();
-// ... (código existente) ...
-app.UseCors("PermitirAngular"); // Agregar justo antes de app.MapControllers();
 
 app.MapControllers();
 
